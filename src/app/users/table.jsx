@@ -14,7 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MoreHorizontal, Settings } from "lucide-react";
+import { Edit, MoreHorizontal, Settings } from "lucide-react";
 
 export function UsersTable(props) {
   const { data } = props;
@@ -47,9 +47,9 @@ export function UsersTable(props) {
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </TableHead>
-                <TableHead>Нармандах</TableHead>
-                <TableHead>Тэмүүлэн</TableHead>
-                <TableHead>boldoo@gmail.com</TableHead>
+                <TableHead>{item.firstname}</TableHead>
+                <TableHead>{item.lastname}</TableHead>
+                <TableHead>{item.email}</TableHead>
                 <TableHead className="w-1">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -60,10 +60,21 @@ export function UsersTable(props) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => navigator.clipboard.writeText("temkanibno@gmail.com")}>Copy Email</DropdownMenuItem>
+
+
+                      <DropdownMenuItem onClick={() => navigator.clipboard.writeText(item.email)}>Copy Email</DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Edit</DropdownMenuItem>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
+
+
+                      <DropdownMenuItem onClick={async() => {
+                        await fetch(`api/users`, {method: "Edit"})
+                      }} >Edit</DropdownMenuItem>
+
+
+                      <DropdownMenuItem onClick={async() => {
+                        await fetch(`api/users/${item.id}`, {method: "DELETE"})
+                      }} >Delete</DropdownMenuItem>
+
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableHead>
