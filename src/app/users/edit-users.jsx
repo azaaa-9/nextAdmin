@@ -1,65 +1,71 @@
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useEffect, useState } from "react";
 
-export function DialogDemo({ open, onClose }) {
+
+export const UserEditDialog = ({ open, onClose, item }) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+
+
+  const addUser = async () => {
+    const res = await fetch(`/api/users/${item.id}`, {
+      method: "PUT",
+      body: JSON.stringify({ firstname: firstName, lastname, email, imageUrl: "http://dummyimage.com/206x199.png/dddddd/000000" })
+    })
+
+    onClose(false);
+  }
+
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle>Edit user</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="firstname" className="text-right">
-              firstname
-            </Label>
+          <div className="grid gap-2">
+            <Label htmlFor="firstname">Firstname</Label>
             <Input
-              id="firstname"
-              defaultValue=""
-              className="col-span-3"
-            />
+              value={firstName}
+              onChange={(e) => {
+                setFirstName(e.target.value)
+                console.log(e.target.value)
+              }}
+              id="name" defaultValue="" />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
+          <div className="grid gap-2">
+            <Label htmlFor="username">Username</Label>
             <Input
-              id="username"
-              defaultValue=""
-              className="col-span-3"
-            />
+              value={lastname}
+              onChange={(e) => {
+                setLastname(e.target.value)
+                console.log(e.target.value)
+              }}
+              id="username" defaultValue="" />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="email" className="text-right">
-              email
-            </Label>
+          <div className="grid gap-2">
+            <Label htmlFor="email">email</Label>
             <Input
-              id="email"
-              defaultValue=""
-              className="col-span-3"
-            />
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                console.log(e.target.value)
+              }}
+              id="email" defaultValue="" />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button onClick={() => onClose(false)} variant="outline" type="button">
+            Cancel
+          </Button>
+          <Button onClick={addUser} type="submit">Save</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

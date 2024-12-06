@@ -15,9 +15,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Edit, MoreHorizontal, Settings } from "lucide-react";
+import {UserEditDialog} from "./edit-users"
+import { useState } from "react";
 
 export function UsersTable(props) {
   const { data } = props;
+  const [ editModalOpen, seteditModalOpen ] = useState(false);
+  const [selectedItem, setselectedItem] = useState();
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -66,9 +70,12 @@ export function UsersTable(props) {
                       <DropdownMenuSeparator />
 
 
-                      <DropdownMenuItem onClick={async() => {
-                        await fetch(`api/users`, {method: "Edit"})
-                      }} >Edit</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => {
+                        setselectedItem(item);
+                        seteditModalOpen(true);
+                      }}
+                      
+                      >Edit</DropdownMenuItem>
 
 
                       <DropdownMenuItem onClick={async() => {
@@ -77,11 +84,14 @@ export function UsersTable(props) {
 
                     </DropdownMenuContent>
                   </DropdownMenu>
+                
                 </TableHead>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+
+        <UserEditDialog item={selectedItem} open={editModalOpen} onClose={seteditModalOpen}/>
       </div>
     </div>
   );
