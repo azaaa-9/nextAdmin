@@ -22,10 +22,18 @@ export function UsersTable(props) {
   const { data } = props;
   const [ editModalOpen, seteditModalOpen ] = useState(false);
   const [selectedItem, setselectedItem] = useState();
-  return (
+  const [search, setSearch] = useState();
+
+//   const filterData = data.filter((el) =>
+//     el.firstname.toLowerCase().includes(search.toLowerCase())
+// )
+;  return (
     <div className="w-full">
       <div className="flex items-center py-4">
-        <Input placeholder="Нэрээр хайх..." className="max-w-sm" />
+        <Input
+        placeholder="Нэрээр хайх..." className="max-w-sm"
+        value = {search}
+        onChange = {(e) => setSearch(e.target.value)} />
       </div>
       <div className="border rounded-md">
         <Table>
