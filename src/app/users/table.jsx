@@ -89,6 +89,11 @@ export function UsersTable(props) {
                       <DropdownMenuItem onClick={async() => {
                         await fetch(`api/users/${item.id}`, {method: "DELETE"})
                       }} >Delete</DropdownMenuItem>
+                      
+                      <DropdownMenuItem onClick={async() => {
+                        await fetch(`api/users/${item.id}`, {method: "POST"})
+                      }} >hoho</DropdownMenuItem>
+                      
 
                     </DropdownMenuContent>
                   </DropdownMenu>
