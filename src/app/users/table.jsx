@@ -23,6 +23,7 @@ export function UsersTable(props) {
   const [ editModalOpen, seteditModalOpen ] = useState(false);
   const [selectedItem, setselectedItem] = useState();
   const [search, setSearch] = useState();
+ 
 
 //   const filterData = data.filter((el) =>
 //     el.firstname.toLowerCase().includes(search.toLowerCase())
